@@ -38,7 +38,7 @@ cat >> client.conf << EOF
 client
 dev tun
 proto tcp-client
-remote `wget -qO- whatismyip.org` 443
+remote `curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'` 443
 resolv-retry infinite
 cipher AES-256-CBC
 # Cles
