@@ -34,24 +34,23 @@ sudo cp /etc/openvpn/ca.crt /etc/openvpn/ta.key keys/$1.crt keys/$1.key /etc/ope
 
 cd /etc/openvpn/clientconf/$1
 cat >> client.conf << EOF
-# Client
 client
-dev tun
-proto tcp-client
 remote `curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'` 443
-resolv-retry infinite
-cipher AES-256-CBC
-# Cles
 ca ca.crt
 cert $1.crt
 key $1.key
+cipher AES-256-CBC
+comp-lzo yes
+dev tun
+proto tcp
 tls-auth ta.key 1
-# Securite
 nobind
+auth-nocache
+script-security 2
 persist-key
 persist-tun
-comp-lzo
-verb 3
+user openvpn
+group openvpn
 EOF
 sudo cp client.conf client.ovpn
 
